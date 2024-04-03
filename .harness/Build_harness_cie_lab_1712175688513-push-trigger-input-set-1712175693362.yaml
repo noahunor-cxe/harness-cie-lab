@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_harness_cie_lab_1712175688513-push-trigger-input-set
+  identifier: Build_harness_cie_lab_1712175688513pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: noahbootcampci
+  pipeline:
+    identifier: Build_harness_cie_lab_1712175688513
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
