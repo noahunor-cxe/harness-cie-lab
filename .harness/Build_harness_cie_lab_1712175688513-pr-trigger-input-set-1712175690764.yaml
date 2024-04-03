@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_harness_cie_lab_1712175688513-pr-trigger-input-set
+  identifier: Build_harness_cie_lab_1712175688513prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: noahbootcampci
+  pipeline:
+    identifier: Build_harness_cie_lab_1712175688513
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
