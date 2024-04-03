@@ -12,24 +12,43 @@ pipeline:
   stages:
     - stage:
         identifier: build
-        name: build
+        name: Build
         spec:
           caching:
             enabled: true
+            paths: []
           cloneCodebase: true
           execution:
             steps:
               - step:
                   identifier: echo
-                  name: echo
+                  name: Build
                   spec:
-                    command: echo hello world
+                    connectorRef: account.noahdockerconn
+                    image: nikpap/mvn-openjdk-8:harness
+                    shell: Bash
+                    command: |-
+                      cd payment-service
+                      mvn -Dmaven.test.skip=true clean install -X
                   timeout: ""
                   type: Run
-          platform:
-            arch: Amd64
-            os: Linux
-          runtime:
-            spec: {}
-            type: Cloud
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: pushtodockerhub
+                  identifier: pushtodockerhub
+                  spec:
+                    connectorRef: account.noahdockerconn
+                    repo: nikpap/mvn-openjdk-8:harness
+                    tags: <+input>
+                    dockerfile: /harness/payment-service/Dockerfile
+                    optimize: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: ee
+              namespace: default
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
         type: CI
+        description: ""
